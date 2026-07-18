@@ -5,6 +5,8 @@ public
 prof
 tsconfig.tsbuildinfo
 .obsidian
+.makemd
+.space
 .quartz-cache
 private/
 .replit

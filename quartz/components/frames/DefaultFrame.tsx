@@ -23,11 +23,30 @@ export const DefaultFrame: PageFrame = {
   }: PageFrameProps) {
     return (
       <>
-        <div class="left sidebar">
-          {left.map((BodyComponent) => (
-            <BodyComponent {...componentData} />
-          ))}
-        </div>
+        {left.length > 0 && (
+          <>
+            <input
+              type="checkbox"
+              id="q-sidebar-left"
+              class="sidebar-peg-toggle"
+              tabindex={-1}
+              aria-hidden="true"
+            />
+            <label
+              for="q-sidebar-left"
+              class="sidebar-peg sidebar-peg-left"
+              aria-label="Toggle explorer sidebar"
+            ></label>
+            <div class="left sidebar">
+              <label for="q-sidebar-left" class="sidebar-minimize" aria-label="Collapse explorer">
+                ✕
+              </label>
+              {left.map((BodyComponent) => (
+                <BodyComponent {...componentData} />
+              ))}
+            </div>
+          </>
+        )}
         <div class="center">
           <div class="page-header">
             <Header {...componentData}>
@@ -49,11 +68,34 @@ export const DefaultFrame: PageFrame = {
             ))}
           </div>
         </div>
-        <div class="right sidebar">
-          {right.map((BodyComponent) => (
-            <BodyComponent {...componentData} />
-          ))}
-        </div>
+        {right.length > 0 && (
+          <>
+            <input
+              type="checkbox"
+              id="q-sidebar-right"
+              class="sidebar-peg-toggle"
+              tabindex={-1}
+              aria-hidden="true"
+            />
+            <label
+              for="q-sidebar-right"
+              class="sidebar-peg sidebar-peg-right"
+              aria-label="Toggle table of contents sidebar"
+            ></label>
+            <div class="right sidebar">
+              <label
+                for="q-sidebar-right"
+                class="sidebar-minimize"
+                aria-label="Collapse table of contents"
+              >
+                ✕
+              </label>
+              {right.map((BodyComponent) => (
+                <BodyComponent {...componentData} />
+              ))}
+            </div>
+          </>
+        )}
         <Footer {...componentData} />
       </>
     )

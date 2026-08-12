@@ -1,3 +1,142 @@
 @use "./variables.scss" as *;
 
 // put your custom CSS here!
+
+// ============================================================================
+// Full-window content + floating, collapsible sidebars (desktop only)
+// ============================================================================
+// On desktop the content spans the entire browser window. The left/right
+// sidebars become floating overlays, collapsed by default. A small peg on each
+// screen edge opens them; a ✕ button inside each sidebar collapses it again.
+// The toggles are pure CSS (checkboxes + :has()) — no JavaScript required.
+// Tablet/mobile keep the standard stacked Quartz layout.
+// ============================================================================
+
+.page {
+  max-width: 100%;
+}
+
+@media all and ($desktop) {
+  .page > #quartz-body {
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "grid-header"
+      "grid-center"
+      "grid-footer";
+  }
+
+  .page > #quartz-body .center,
+  .page > #quartz-body footer {
+    max-width: 100%;
+    min-width: 100%;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 50;
+    background-color: color-mix(in srgb, var(--light) 88%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.18);
+    transition: transform 0.25s ease;
+  }
+
+  .sidebar.left {
+    left: 0;
+    transform: translateX(-105%);
+  }
+
+  .sidebar.right {
+    right: 0;
+    transform: translateX(105%);
+  }
+
+  .page:has(#q-sidebar-left:checked) .sidebar.left {
+    transform: translateX(0);
+  }
+
+  .page:has(#q-sidebar-right:checked) .sidebar.right {
+    transform: translateX(0);
+  }
+
+  .sidebar-peg-toggle {
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .sidebar-peg {
+    position: fixed;
+    top: 45%;
+    z-index: 60;
+    cursor: pointer;
+    display: block;
+    padding: 1.2rem 0.55rem;
+    font-family: var(--headerFont);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--light);
+    background-color: var(--secondary);
+    writing-mode: vertical-rl;
+    user-select: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .sidebar-peg::before {
+    content: "≡";
+  }
+
+  .sidebar-peg-left {
+    left: 0;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .sidebar-peg-right {
+    right: 0;
+    border-radius: 8px 0 0 8px;
+  }
+
+  .sidebar-peg:hover {
+    background-color: var(--tertiary);
+  }
+
+  .page:has(#q-sidebar-left:checked) .sidebar-peg-left,
+  .page:has(#q-sidebar-right:checked) .sidebar-peg-right {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .sidebar-minimize {
+    position: sticky;
+    top: 0;
+    align-self: flex-end;
+    margin-left: auto;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    display: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    border-radius: 4px;
+    color: var(--darkgray);
+    background-color: var(--lightgray);
+    user-select: none;
+  }
+
+  .sidebar-minimize:hover {
+    color: var(--light);
+    background-color: var(--secondary);
+  }
+
+  .page:has(#q-sidebar-left:checked) .sidebar.left .sidebar-minimize,
+  .page:has(#q-sidebar-right:checked) .sidebar.right .sidebar-minimize {
+    display: block;
+  }
+}

@@ -4,35 +4,35 @@
 
 ```
 Login page ──POST /login──▶ auth_routes.py:7-10
-  (username, password)       │
-                             ▼
-                   auth_service.authenticate_user():10-35
-                             │
-                   ┌─────────┴──────────┐
-                   ▼                    ▼
-	            MongoDB users         password verify
-	            collection           (bcrypt)
-	            find_one()           security.py:16-17
-	              │                     │
-	              └─────────┬───────────┘
-                        │ both match?
-                        ▼
-              security.create_access_token():20-40
-              JWT with HS256
-              payload: {sub: username, role, exp}
-              expires: 120 min (config.py:41)
-                        │
-                        ▼
-              Response: {access_token, token_type: "bearer"}
-                        │
-                        ▼
-              Frontend stores token in localStorage
-              Sends as: Authorization: Bearer <token>
-                        │
-                        ▼
-              Protected routes via get_current_user()
-              dependencies.py:10-28
-              Decodes JWT, looks up user in MongoDB
+  (username, password)        │
+                              ▼
+                        auth_service.authenticate_user():10-35
+                              │
+                      ┌───────┴───────┐
+                      ▼               ▼
+                        MongoDB users   password verify
+                        collection      (bcrypt)
+                        find_one()      security.py:16-17
+                      │               │
+                      └───────┬───────┘
+                              │ both match?
+                              ▼
+                        security.create_access_token():20-40
+                        JWT with HS256
+                        payload: {sub: username, role, exp}
+                        expires: 120 min (config.py:41)
+                              │
+                              ▼
+                        Response: {access_token, token_type: "bearer"}
+                              │
+                              ▼
+                        Frontend stores token in localStorage
+                        Sends as: Authorization: Bearer <token>
+                              │
+                              ▼
+                        Protected routes via get_current_user()
+                        dependencies.py:10-28
+                        Decodes JWT, looks up user in MongoDB
 ```
 
 ## Step-by-step

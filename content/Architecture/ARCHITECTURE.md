@@ -15,9 +15,9 @@ Sentry-Pod runs as four long-lived Podman containers (defined in `podman-compose
 │   │nginx + React │    │FastAPI + motor   │    │ MongoDB (opt) │  │
 │   │prod build    │    │ 12 routes        │    │               │  │
 │   └──────────────┘    └────────┬─────────┘    └───────────────┘  │
-│                               │                                  │
-│                               │ podman exec (via execution_svc)  │
-│                               ▼                                  │
+│                                │                                 │
+│                                │ podman exec (via execution_svc) │
+│                                ▼                                 │
 │  ┌──────────────────┐    ┌──────────────────┐                    │
 │  │  sentry-ansible  │    │   syslog-ng      │                    │
 │  │  (ephemeral)     │    │   :10514/udp     │                    │
@@ -27,11 +27,11 @@ Sentry-Pod runs as four long-lived Podman containers (defined in `podman-compose
 │                                                                  │
 │  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─       │
 │  External:                                                       │
-│  ┌──────────────┐    ┌─────────────────────┐                     │
-│  │  Browser     │    │  MongoDB Atlas       │                    │
-│  │  :5173 (dev) │    │  sentrypod.xxxxx.mongodb.net              │
-│  │  :3000 (prod)│    │  sentry_pod_db        │                   │
-│  └──────────────┘    └─────────────────────┘                     │
+│  ┌──────────────┐    ┌─────────────────────--------┐             │
+│  │  Browser     │    │  MongoDB Atlas              │             │
+│  │  :5173 (dev) │    │  sentrypod.xxxxx.mongodb.net│             │  
+│  │  :3000 (prod)│    │  sentry_pod_db              │             │
+│  └──────────────┘    └─────────────────────--------┘             │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
